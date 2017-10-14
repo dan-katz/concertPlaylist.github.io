@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concerts Near Me</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel = "stylesheet" href = "default.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.1/rangeslider.min.css" />
+  </head>
+  <body onload="initMap()">
+    <div class="card" style="width: 20rem;">
+      <div class="card-body">
+        <h4 class="card-title">How far are you willing to travel?</h4>
+
+        <!--<input id="ex8" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>-->
+        <input
+          type="range"
+          min="1"
+          max="30"
+          step="1"
+          value="5"
+        >
+        <output></output>
+        <p class="card-text">How far off can the concerts be?</p>
+        <button onclick="setTimestep('1 week')"class="btn btn-outline-primary" aria-pressed="false">1 week</button> <!-- not sure if this does anyting - feel free to remove -->
+        <button onclick="setTimestep('2 weeks')" class="btn btn-outline-primary" aria-pressed="false">2 weeks</button>
+        <button onclick="setTimestep('1 month')" class="btn btn-outline-primary" aria-pressed="false">1 month</button>
+        <button onclick="setTimestep('2 months')" class="btn btn-outline-primary" aria-pressed="false">2 months</button>
+        <button onclick="setTimestep('3 months')" class="btn btn-outline-primary" aria-pressed="false">3 months</button>
+        <button onclick="setTimestep('4 months')" class="btn btn-outline-primary" aria-pressed="false">4 months</button>
+        <br />
+        <br>
+        <a href="https://accounts.spotify.com/authorize?client_id=ac8eaa821bb74a578938cbda34131957&redirect_uri=http:%2F%2Fexample.com%2Fcallback&scope=user-read-private%20user-read-email&response_type=token&state=123" class="btn btn-primary">Confirm</a>
+      </div>
+    </div>
+    <div id="map"></div>
+    </div>
+    <script async defer
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCj1KCBG39ayZOkVnx9VX_9jHQW6zZgD4k">
+    </script>
+    <script src = "get_map.js"></script>
+    <script>
+      var $element = $('input[type="range"]');
+      var $output = $('output');
+
+      function updateOutput(el, val) {
+        el.textContent = '' + val + ' miles';
+      }
+
+      $element
+        .rangeslider({
+          polyfill: false,
+          onInit: function() {
+            updateOutput($output[0], this.value);
+          }
+        })
+        .on('input', function() {
+          updateOutput($output[0], this.value);
+          removeCircle(this.value);
+        });
+    </script>
+  </body>
+</html>
